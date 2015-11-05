@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+console.log("not ready yet")
+process.exit(1)
