@@ -17,6 +17,6 @@ exports.gather = function getCores (context, callback) {
     },
     // warning triggers
     warning: 'Not enough cores!',
-    error: context.
+    error: context.requiredCores > 1 ? true : false // Marks the warning as a dealbreaker
   })
 }
