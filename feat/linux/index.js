@@ -1,5 +1,5 @@
 module.exports = {
-	python: require('./python'),
-	make:   require('./make'),
-	gcc:    require('./gcc')
+  python: require('./python'),
+  make:   require('./make'),
+  gcc:    require('./gcc')
 }
