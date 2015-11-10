@@ -8,7 +8,7 @@ exports.gather2 = function getCores (context, callback) {
     // float / integer / string / label / table / list / markdown / boolean
     table: {
       header: null,
-      body: [{label: 'Cores'},{
+      body: [{label: 'Cores'}, {
         quality: 1,
         integer: 1,
         min: 1
@@ -17,6 +17,6 @@ exports.gather2 = function getCores (context, callback) {
     },
     // warning triggers
     warning: 'Not enough cores!',
-    error: context.requiredCores > 1 ? true : false // Marks the warning as a dealbreaker
+    error: context.requiredCores > 1 // Marks the warning as a dealbreaker
   })
 }

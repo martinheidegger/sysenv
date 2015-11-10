@@ -1,7 +1,7 @@
 var getFeatures = require('./feat')
 var async = require('async')
 
-function flat(obj, sep) {
+function flat (obj, sep) {
   return Object.keys(obj).reduce(function (result, key) {
     var child = obj[key]
     Object.keys(child).forEach(function (childKey) {
@@ -11,7 +11,7 @@ function flat(obj, sep) {
   }, {})
 }
 
-function toList(obj) {
+function toList (obj) {
   return Object.keys(obj).reduce(function (result, key) {
     result.push({
       name: key,
@@ -41,9 +41,17 @@ module.exports = function (context) {
     gather: function (callback) {
       async.map(features, function (feature, callback) {
         feature.spec.gather(context, function (error, data) {
+          var desc = context.hide_description ? undefined : feature.spec.description
+          if (error) {
+            callback(null, {
+              id: feature.name,
+              description: desc,
+              error: error
+            })
+          }
           callback(null, {
             id: feature.name,
-            description: context.hide_description ? undefined : feature.spec.description,
+            description: desc,
             data: data
           })
         })

@@ -1,8 +1,8 @@
 module.exports = {
-  n:          require('./n'),
-  npm:        require('./npm'),
+  n: require('./n'),
+  npm: require('./npm'),
   'npm-conf': require('./npm-conf'),
-  nvm:        require('./nvm'),
-  version:    require('./version'),
-  packages:   require('./packages')
+  nvm: require('./nvm'),
+  version: require('./version'),
+  packages: require('./packages')
 }
