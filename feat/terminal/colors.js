@@ -1,1 +1,0 @@
-// According to `supports-colors` information if the terminal supports colors

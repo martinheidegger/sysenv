@@ -1,4 +1,122 @@
 #!/usr/bin/env node
 
-console.log("not ready yet")
-process.exit(1)
+var os
+var msee = require('msee')
+var chalk = require('chalk')
+var _ = require('minimist')(process.argv.slice(2))
+
+switch (require('os').platform()) {
+	case 'win32':
+		os = 'win'
+		break
+	case 'darwin':
+		os = 'mac'
+		break
+	case 'linux':
+		os = 'linux'
+		break
+	/*
+	case 'freebsd':
+	    ...
+	case 'sunos':
+		...
+	*/ 
+}
+
+function getRenderer(data) {
+	if (data.float !== undefined) {
+		return {
+			single: true,
+			format: function () {
+				return data.float
+			}
+		}
+	}
+}
+
+function formatData(data) {
+	return data.string
+}
+
+function renderQuality(quality) {
+	if (!chalk.enabled) {
+		return ' Q' + quality
+	}
+	return (
+		quality === 4 ? chalk.green :
+		quality === 3 ? chalk.cyan :
+		quality === 2 ? chalk.blue :
+		quality === 1 ? chalk.magenta :
+		quality === 0 ? chalk.yellow :
+		chalk.black
+	)('\u2588\u2588\u2588')
+}
+
+var context = {
+	os:  os,
+	node_version_lts: _['node-version-lts'],
+	hide_description: _['hide-description'] || false,
+	anonymous: _.anonymous || false,
+	prefix: _['prefix']
+}
+
+require('../index')(context).gather(function (error, data) {
+	if (error) {
+		console.log("Error: " + error)
+		process.exit()
+	}
+	console.log(
+		'\n' +
+		data.map(function (line) {
+			var result = renderQuality(line.data.quality) + ' '
+			result += chalk.bold(line.id)
+
+			var content = ''
+			if (line.data.string !== undefined) {
+				content = line.data.string
+			} else if (line.data.float !== undefined) {
+				content = chalk.cyan(line.data.float.toString(10))
+			} else if (line.data.integer !== undefined) {
+				content = chalk.magenta(line.data.integer.toString(10))
+			} else if (line.data.label !== undefined) {
+				content = chalk.bold(line.data.label)
+			} else if (line.data.list !== undefined) {
+				content = line.data.list.map(function (line) {
+					return ' - ' + line
+				}).join('\n')
+			} else if (line.data.markdown !== undefined) {
+				content = msee.parse(line.data.markdown)
+			} else if (line.data.table !== undefined) {
+
+			} else if (line.data.bool !== undefined) {
+				content = line.data.bool.toString()
+			}
+
+			var description = line.description
+			if (content.indexOf('\n') === -1) {
+				result += ' → ' + content + '\n'
+				if (description !== undefined) {
+					result += '    ' + chalk.gray(description) + '\n'	
+				}
+			} else {
+				if (description != undefined) {
+					result += chalk.gray(' (' + description + ')')
+				}
+				result += '\n\n'
+				result += content.replace(/^/gm, '   ')
+				result += '\n\n'
+			}
+
+			if (line.data.warning || line.data.recommend)
+				result += '\n'
+
+			if (line.data.warning)
+				result += '    - ' + chalk.underline('Warning:') + ' ' + line.data.warning + '\n'
+			
+			if (line.data.recommend)
+				result += '    - ' + chalk.underline('Recommendation:') + ' ' + line.data.recommend + '\n'
+
+			return result
+		}).join('\n')
+	)
+})
