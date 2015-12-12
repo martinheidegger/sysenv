@@ -3,6 +3,7 @@ module.exports = {
   npm: require('./npm'),
   'npm-conf': require('./npm-conf'),
   nvm: require('./nvm'),
-  version: require('./version'),
-  packages: require('./packages')
+  packages: require('./packages'),
+  user: require('./user'),
+  version: require('./version')
 }
