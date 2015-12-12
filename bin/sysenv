@@ -57,7 +57,19 @@ var context = {
 	node_version_lts: _['node-version-lts'],
 	hide_description: _['hide-description'] || false,
 	anonymous: _.anonymous || false,
-	prefix: _['prefix']
+	prefix: _['prefix'],
+	filter: _._.reduce(function (filters, name) {
+			var expr = /^\s*\/(.+)\/((m|i|g|y)*)?\s*$/.exec()
+			if (expr) {
+				filters.regex.push(new RegExp(expr[1], expr[2]))
+			} else {
+				filters.simple[name] = true
+			}
+			return filters
+		}, {
+			simple: {},
+			regex: []
+		})
 }
 
 require('../index')(context).gather(function (error, data) {

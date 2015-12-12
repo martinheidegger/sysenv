@@ -32,6 +32,22 @@ module.exports = function (context) {
       return entry.name.indexOf(context.prefix) === 0
     })
   }
+  if (context.filter.regex && context.filter.regex.length > 0) {
+    features = features.filter(function (entry) {
+      for (var i = 0; i < context.filter.regex.length; i++) {
+        regex = context.filter.regex[i]
+        if (regex.test(entry.name)) {
+          return true
+        }
+      }
+      return false
+    })
+  }
+  if (context.filter.simple && Object.keys(context.filter.simple).length > 0) {
+    features = features.filter(function (entry) {
+      return context.filter.simple[entry.name]
+    })
+  }
   if (context.anonymous) {
     features = features.filter(function (entry) {
       return entry.spec.private !== true
