@@ -35,7 +35,7 @@ module.exports = function (context) {
   if (context.filter.regex && context.filter.regex.length > 0) {
     features = features.filter(function (entry) {
       for (var i = 0; i < context.filter.regex.length; i++) {
-        regex = context.filter.regex[i]
+        var regex = context.filter.regex[i]
         if (regex.test(entry.name)) {
           return true
         }
