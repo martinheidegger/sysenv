@@ -3,6 +3,7 @@ var features = {
   node: require('./node'),
   hw: require('./hw'),
   net: require('./net'),
+  os: require('./os'),
   term: require('./term')
 }
 
