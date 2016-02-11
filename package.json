@@ -1,6 +1,6 @@
 {
   "name": "sysenv",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Tool(s) to identify the system that is running with all the possible side-effects",
   "main": "index.js",
   "scripts": {
