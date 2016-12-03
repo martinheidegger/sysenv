@@ -23,7 +23,7 @@
     "ansi-styles": "^2.2.0",
     "async": "^1.5.2",
     "chalk": "^1.1.1",
-    "color": "^0.11.1",
+    "color": "^1.0.1",
     "minimist": "^1.2.0",
     "msee": "^0.3.1",
     "node-version-data": "^1.0.1",
